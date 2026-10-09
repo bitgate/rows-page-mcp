@@ -1,0 +1,8 @@
+{
+  "mcpServers": {
+    "rows": {
+      "type": "http",
+      "url": "https://rows.page/mcp"
+    }
+  }
+}
