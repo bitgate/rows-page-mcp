@@ -1,0 +1,19 @@
+{
+  "$schema": "https://static.modelcontextprotocol.io/schemas/2025-12-11/server.schema.json",
+  "name": "page.rows/rows",
+  "title": "rows.page",
+  "description": "Push CSV, JSON, JSONL or Parquet from your agent and get a link a human can explore.",
+  "websiteUrl": "https://rows.page",
+  "repository": {
+    "url": "https://github.com/bitgate/rows-page-mcp",
+    "source": "github",
+    "id": "1411644965"
+  },
+  "version": "1.0.0",
+  "remotes": [
+    {
+      "type": "streamable-http",
+      "url": "https://rows.page/mcp"
+    }
+  ]
+}
