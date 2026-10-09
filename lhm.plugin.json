@@ -1,0 +1,270 @@
+{
+  "author": "Bitgate",
+  "authorUrl": "https://github.com/bitgate",
+  "category": "developer",
+  "cloudEndpoint": "https://rows.page/mcp",
+  "description": "Push CSV, JSON, JSONL or Parquet from your agent and get a link a human can explore.",
+  "homepage": "https://github.com/bitgate/rows-page-mcp",
+  "identifier": "bitgate-rows-page-mcp",
+  "name": "rows.page",
+  "tags": [
+    "csv",
+    "parquet",
+    "json",
+    "data",
+    "datasets",
+    "sql",
+    "charts"
+  ],
+  "tools": [
+    {
+      "name": "push",
+      "description": "Publish rows as a rows.page dataset (or a new version of one) and get a shareable URL. Pass exactly one of csv, tsv, jsonl, json, rows or url. Up to 16 MB inline; use url for bigger files. Identical content returns unchanged: true without a new version. Re-pushes report rows_delta, columns_added/removed and a diff_url. Anonymous datasets expire after 7 days unless kept. Finding views use the rows.page query language in q: `word` or `\"two words\"` searches text columns; `field:value`, `field:\"a b\"`, `-field:value`, `field:*` (not null), `-field:*` (null), `field:foo*` (prefix); `field:>20`, `>=`, `<`, `<=`, `field:10..20`, ISO dates (`at:>2026-09-01`); dot paths for nested JSON (`payload.customer.country:NL`); `tags:urgent` means the list contains it; combine with `OR` and parentheses. A q starting with SELECT, WITH or FROM runs as SQL against the table `data`. sort is comma-separated columns, `-` for descending (`-price,name`); cols picks and orders visible columns (`a,b,c`).",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "csv": {
+            "type": "string",
+            "description": "CSV text with a header row"
+          },
+          "tsv": {
+            "type": "string",
+            "description": "TSV text with a header row"
+          },
+          "jsonl": {
+            "type": "string",
+            "description": "One JSON object per line"
+          },
+          "json": {
+            "description": "A JSON array of objects (or an object holding one), as text or as a value"
+          },
+          "rows": {
+            "type": "array",
+            "items": {
+              "type": "object"
+            },
+            "description": "Rows as an array of objects"
+          },
+          "url": {
+            "type": "string",
+            "description": "http(s) URL of a CSV, TSV, JSON, JSONL or Parquet file to fetch and publish"
+          },
+          "format": {
+            "type": "string",
+            "enum": [
+              "csv",
+              "tsv",
+              "json",
+              "jsonl",
+              "parquet"
+            ],
+            "description": "Format of url when it cannot be told"
+          },
+          "name": {
+            "type": "string",
+            "description": "File name, e.g. orders.csv"
+          },
+          "title": {
+            "type": "string",
+            "description": "Dataset title shown on the page"
+          },
+          "summary": {
+            "type": "string",
+            "description": "A few sentences for the human: what this is and what to look at"
+          },
+          "dataset": {
+            "type": "string",
+            "description": "Existing dataset id to push a new version to"
+          },
+          "token": {
+            "type": "string",
+            "description": "Dataset token (rpt_...) proving ownership of dataset"
+          },
+          "key": {
+            "type": "string",
+            "description": "Stable name for upserts with an API key, e.g. nightly-orders"
+          },
+          "id_column": {
+            "type": "string",
+            "description": "Column that identifies a row across versions, for changed-row diffs"
+          },
+          "visibility": {
+            "type": "string",
+            "enum": [
+              "public",
+              "private"
+            ],
+            "description": "private needs Pro or Max"
+          },
+          "findings": {
+            "type": "array",
+            "maxItems": 20,
+            "items": {
+              "type": "object",
+              "properties": {
+                "title": {
+                  "type": "string",
+                  "description": "Short headline of the finding"
+                },
+                "note": {
+                  "type": "string",
+                  "description": "Why it matters, in a sentence or two"
+                },
+                "q": {
+                  "type": "string",
+                  "description": "Filter in the rows.page query language"
+                },
+                "sort": {
+                  "type": "string",
+                  "description": "Sort, e.g. -price,name"
+                },
+                "cols": {
+                  "type": "string",
+                  "description": "Visible columns, e.g. id,price,country"
+                },
+                "sql": {
+                  "type": "string",
+                  "description": "Optional SQL against the table `data`"
+                }
+              },
+              "required": [
+                "title"
+              ]
+            }
+          },
+          "source": {
+            "type": "string",
+            "description": "Where the data came from (URL or description)"
+          },
+          "run": {
+            "type": "string",
+            "description": "Run id of the job that produced it"
+          },
+          "commit": {
+            "type": "string",
+            "description": "Commit sha of the code that produced it"
+          }
+        }
+      }
+    },
+    {
+      "name": "pin_finding",
+      "description": "Pin a finding (a saved, titled view) to a dataset you own. Finding views use the rows.page query language in q: `word` or `\"two words\"` searches text columns; `field:value`, `field:\"a b\"`, `-field:value`, `field:*` (not null), `-field:*` (null), `field:foo*` (prefix); `field:>20`, `>=`, `<`, `<=`, `field:10..20`, ISO dates (`at:>2026-09-01`); dot paths for nested JSON (`payload.customer.country:NL`); `tags:urgent` means the list contains it; combine with `OR` and parentheses. A q starting with SELECT, WITH or FROM runs as SQL against the table `data`. sort is comma-separated columns, `-` for descending (`-price,name`); cols picks and orders visible columns (`a,b,c`).",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "dataset": {
+            "type": "string",
+            "description": "Dataset id"
+          },
+          "token": {
+            "type": "string",
+            "description": "Dataset token (rpt_...) when not using an API key"
+          },
+          "title": {
+            "type": "string",
+            "description": "Short headline of the finding"
+          },
+          "note": {
+            "type": "string",
+            "description": "Why it matters, in a sentence or two"
+          },
+          "q": {
+            "type": "string",
+            "description": "Filter in the rows.page query language"
+          },
+          "sort": {
+            "type": "string",
+            "description": "Sort, e.g. -price,name"
+          },
+          "cols": {
+            "type": "string",
+            "description": "Visible columns, e.g. id,price,country"
+          },
+          "sql": {
+            "type": "string",
+            "description": "Optional SQL against the table `data`"
+          },
+          "version": {
+            "type": "integer",
+            "description": "Pin to this version instead of the latest"
+          },
+          "row_count": {
+            "type": "integer",
+            "description": "Rows matching the view, if you know it"
+          }
+        },
+        "required": [
+          "dataset",
+          "title"
+        ]
+      }
+    },
+    {
+      "name": "get_dataset",
+      "description": "Read a dataset: meta, recent versions, findings, columns and the first 20 preview rows.",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "dataset": {
+            "type": "string",
+            "description": "Dataset id"
+          },
+          "version": {
+            "type": "integer",
+            "description": "Version number; latest when omitted"
+          },
+          "token": {
+            "type": "string",
+            "description": "Dataset token, needed for private datasets without an API key"
+          }
+        },
+        "required": [
+          "dataset"
+        ]
+      }
+    },
+    {
+      "name": "list_datasets",
+      "description": "List the datasets kept on your account, newest first. Needs an API key.",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "cursor": {
+            "type": "string",
+            "description": "next_cursor from the previous page"
+          }
+        }
+      }
+    },
+    {
+      "name": "delete_dataset",
+      "description": "Delete a dataset you own. Its URL stops working immediately.",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "dataset": {
+            "type": "string",
+            "description": "Dataset id"
+          },
+          "token": {
+            "type": "string",
+            "description": "Dataset token when not using an API key"
+          }
+        },
+        "required": [
+          "dataset"
+        ]
+      }
+    },
+    {
+      "name": "get_limits",
+      "description": "Show your plan, its caps (file size, datasets, version history) and usage.",
+      "inputSchema": {
+        "type": "object",
+        "properties": {}
+      }
+    }
+  ],
+  "version": "1.0.0"
+}
